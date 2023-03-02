@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/jdcd9001/clean-architecture-template/internal"
 	"github.com/jdcd9001/clean-architecture-template/pkg"
-	"os"
 )
 
 func main() {
