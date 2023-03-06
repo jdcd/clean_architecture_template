@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+	"github.com/jdcd9001/clean-architecture-template/config"
+	"github.com/jdcd9001/clean-architecture-template/internal/infrastructure/http/server"
 	"os"
 
-	"github.com/jdcd9001/clean-architecture-template/internal"
 	"github.com/jdcd9001/clean-architecture-template/pkg"
 )
 
 func main() {
-	router := internal.SetupRouter(internal.GetRouterDependencies())
+	router := server.SetupRouter(config.GetRouterDependencies())
 	port := os.Getenv("PORT")
 
 	if err := router.Run(); err != nil {
