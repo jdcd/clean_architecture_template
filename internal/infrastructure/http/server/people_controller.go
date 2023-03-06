@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jdcd9001/clean-architecture-template/internal/application"
 	"github.com/jdcd9001/clean-architecture-template/internal/domain"
-	"github.com/jdcd9001/clean-architecture-template/internal/infraestructure/entity"
+	"github.com/jdcd9001/clean-architecture-template/internal/infrastructure/entity"
 	"github.com/jdcd9001/clean-architecture-template/pkg"
 )
 

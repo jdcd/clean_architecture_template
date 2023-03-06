@@ -9,12 +9,11 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jdcd9001/clean-architecture-template/internal"
 	"github.com/jdcd9001/clean-architecture-template/internal/application"
 	"github.com/jdcd9001/clean-architecture-template/internal/domain"
 	"github.com/jdcd9001/clean-architecture-template/internal/domain/ports"
-	"github.com/jdcd9001/clean-architecture-template/internal/infraestructure/entity"
-	"github.com/jdcd9001/clean-architecture-template/internal/infraestructure/http/server"
+	"github.com/jdcd9001/clean-architecture-template/internal/infrastructure/entity"
+	"github.com/jdcd9001/clean-architecture-template/internal/infrastructure/http/server"
 	"github.com/jdcd9001/clean-architecture-template/pkg"
 	"github.com/jdcd9001/clean-architecture-template/pkg/mock"
 	"github.com/stretchr/testify/assert"
@@ -140,7 +139,7 @@ func Test_WhenAppCannotReturnPeopleThenGetAllPeopleControllerShouldReturn500(t *
 
 func getMockedRouter(repository ports.PeopleRepository) *gin.Engine {
 	appMock := &application.PeopleApplication{Repository: repository}
-	router := internal.SetupRouter(&internal.RouterDependencies{
+	router := server.SetupRouter(&server.RouterDependencies{
 		PeopleController: &server.PeopleController{App: appMock},
 		CheckController:  &server.PingController{},
 	})

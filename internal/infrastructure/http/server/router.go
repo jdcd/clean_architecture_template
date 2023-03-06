@@ -1,13 +1,12 @@
-package internal
+package server
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jdcd9001/clean-architecture-template/internal/infraestructure/http/server"
 )
 
 type RouterDependencies struct {
-	CheckController  *server.PingController
-	PeopleController *server.PeopleController
+	CheckController  *PingController
+	PeopleController *PeopleController
 }
 
 func SetupRouter(d *RouterDependencies) *gin.Engine {
