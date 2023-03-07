@@ -24,7 +24,7 @@ type PeopleController struct {
 func (r *PeopleController) GetAllPeople(c *gin.Context) {
 	result, err := r.App.GetAllPersons()
 	if err != nil {
-		apiError := pkg.MapApiError(err)
+		apiError := pkg.MapAPIError(err)
 		c.IndentedJSON(apiError.Code, apiError)
 		return
 	}
@@ -37,21 +37,21 @@ func (r *PeopleController) CreatePerson(c *gin.Context) {
 	var person domain.People
 	if err := c.BindJSON(&person); err != nil {
 		formattedError := pkg.CreateFormatError(pkg.DataValidation, EncodingJsonError, err.Error())
-		apiError := pkg.MapApiError(errors.New(formattedError))
+		apiError := pkg.MapAPIError(errors.New(formattedError))
 		c.IndentedJSON(apiError.Code, apiError)
 		pkg.ErrorLogger().Printf("%s, %s \n", EncodingJsonError, err.Error())
 		return
 	}
 
 	if err := person.Validate(); err != nil {
-		apiError := pkg.MapApiError(err)
+		apiError := pkg.MapAPIError(err)
 		c.IndentedJSON(apiError.Code, apiError)
 		return
 	}
 
 	id, err := r.App.CreatePerson(person)
 	if err != nil {
-		apiError := pkg.MapApiError(err)
+		apiError := pkg.MapAPIError(err)
 		c.IndentedJSON(apiError.Code, apiError)
 		return
 	}

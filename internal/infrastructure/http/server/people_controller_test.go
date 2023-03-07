@@ -49,12 +49,12 @@ func Test_WhenAppCannotCreatePersonThenControllerShouldReturn500Error(t *testing
 	router := getMockedRouter(repositoryMock)
 	errorExpected := pkg.CreateFormatError(pkg.ThirdPart, "some internal Error",
 		"database down")
-	apiErrorExpected := pkg.MapApiError(errors.New(errorExpected))
+	apiErrorExpected := pkg.MapAPIError(errors.New(errorExpected))
 	requestObject := domain.People{Name: "cheems", Age: 9}
 	body := bytes.NewReader([]byte(`{"name":"cheems", "age": 9}`))
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest(http.MethodPost, peopleURL, body)
-	var responseStruck pkg.ApiError
+	var responseStruck pkg.APIError
 	repositoryMock.On("Create", requestObject).Return("", errors.New(errorExpected)).Once()
 
 	router.ServeHTTP(recorder, request)
@@ -68,11 +68,11 @@ func Test_WhenAppCannotCreatePersonThenControllerShouldReturn500Error(t *testing
 func Test_WhenPostPeopleRequestIsWrongThenControllerShouldReturnBadRequest401(t *testing.T) {
 	router := getMockedRouter(nil)
 	errorExpected := pkg.CreateFormatError(pkg.DataValidation, server.EncodingJsonError, "someError")
-	apiErrorExpected := pkg.MapApiError(errors.New(errorExpected))
+	apiErrorExpected := pkg.MapAPIError(errors.New(errorExpected))
 	body := bytes.NewReader([]byte(`{"name":"cheems", "age": "fail"}`))
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest(http.MethodPost, peopleURL, body)
-	var responseStruck pkg.ApiError
+	var responseStruck pkg.APIError
 
 	router.ServeHTTP(recorder, request)
 	_ = json.Unmarshal(recorder.Body.Bytes(), &responseStruck)
@@ -85,11 +85,11 @@ func Test_WhenPostPeopleRequestHasInvalidDataThenControllerShouldReturnBadReques
 	router := getMockedRouter(nil)
 	errorExpected := pkg.CreateFormatError(pkg.DataValidation, "the field name is invalid, please check it",
 		"the field name cannot be empty")
-	apiErrorExpected := pkg.MapApiError(errors.New(errorExpected))
+	apiErrorExpected := pkg.MapAPIError(errors.New(errorExpected))
 	body := bytes.NewReader([]byte(`{"name":"", "age": 8}`))
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest(http.MethodPost, peopleURL, body)
-	var responseStruck pkg.ApiError
+	var responseStruck pkg.APIError
 
 	router.ServeHTTP(recorder, request)
 	_ = json.Unmarshal(recorder.Body.Bytes(), &responseStruck)
@@ -102,7 +102,7 @@ func Test_WhenAppIsFineThenGetAllPeopleControllerShouldReturnDataAnd200(t *testi
 	repositoryMock := &mock.PeopleRepositoryMock{}
 	router := getMockedRouter(repositoryMock)
 	expectedResult := []domain.People{{
-		Id:   "1",
+		ID:   "1",
 		Name: "cheems",
 		Age:  6,
 	}}
@@ -124,10 +124,10 @@ func Test_WhenAppCannotReturnPeopleThenGetAllPeopleControllerShouldReturn500(t *
 	router := getMockedRouter(repositoryMock)
 	errorExpected := pkg.CreateFormatError(pkg.ThirdPart, "some internal Error",
 		"database down")
-	apiErrorExpected := pkg.MapApiError(errors.New(errorExpected))
+	apiErrorExpected := pkg.MapAPIError(errors.New(errorExpected))
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest(http.MethodGet, peopleURL, nil)
-	var responseStruck pkg.ApiError
+	var responseStruck pkg.APIError
 	repositoryMock.On("GetAll").Return([]domain.People{}, errors.New(errorExpected)).Once()
 
 	router.ServeHTTP(recorder, request)

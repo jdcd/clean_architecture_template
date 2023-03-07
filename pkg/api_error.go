@@ -22,7 +22,7 @@ const (
 	GenericInternalServerErrorDetail = "internal server error happens when try to process your request"
 )
 
-type ApiError struct {
+type APIError struct {
 	Code         int    `json:"code"`
 	ErrorMessage string `json:"error_detail"`
 	Message      string `json:"message"`
@@ -32,14 +32,14 @@ func CreateFormatError(errorType ErrorType, message string, errDetail string) st
 	return fmt.Sprintf("%s|%s|%s", errorType, message, errDetail)
 }
 
-func MapApiError(err error) ApiError {
+func MapAPIError(err error) APIError {
 	if err == nil {
-		return getStandardApiError(errors.New(UnknownErrorDetail))
+		return getStandardAPIError(errors.New(UnknownErrorDetail))
 	}
 
 	parts := strings.Split(err.Error(), "|")
 	if len(parts) != 3 {
-		return getStandardApiError(err)
+		return getStandardAPIError(err)
 	}
 
 	errorType := ErrorType(parts[0])
@@ -48,13 +48,13 @@ func MapApiError(err error) ApiError {
 
 	switch errorType {
 	case ThirdPart, ConnectionError, DataValidation, DataNotFound, BusinessRule:
-		return ApiError{
+		return APIError{
 			Code:         selectStatusCode(errorType),
 			Message:      errorMessage,
 			ErrorMessage: errorDetail,
 		}
 	default:
-		return getStandardApiError(errors.New(errorDetail))
+		return getStandardAPIError(errors.New(errorDetail))
 	}
 }
 
@@ -71,8 +71,8 @@ func selectStatusCode(errorType ErrorType) int {
 	}
 }
 
-func getStandardApiError(err error) ApiError {
-	return ApiError{
+func getStandardAPIError(err error) APIError {
+	return APIError{
 		Code:         http.StatusInternalServerError,
 		Message:      GenericInternalServerErrorDetail,
 		ErrorMessage: err.Error(),
