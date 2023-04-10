@@ -10,9 +10,9 @@ type LocalPeopleRepository struct {
 }
 
 func (r *LocalPeopleRepository) Create(people domain.People) (id string, err error) {
-	people.Id = uuid.New().String()
+	people.ID = uuid.New().String()
 	r.Storage = append(r.Storage, people)
-	return people.Id, nil
+	return people.ID, nil
 }
 
 func (r *LocalPeopleRepository) GetAll() (results []domain.People, err error) {

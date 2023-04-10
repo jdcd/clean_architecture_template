@@ -10,7 +10,8 @@ import (
 )
 
 func main() {
-	router := server.SetupRouter(config.GetRouterDependencies())
+	appConfiguration := config.GetConfigurations()
+	router := server.SetupRouter(config.GetRouterDependencies(appConfiguration))
 	port := os.Getenv("PORT")
 
 	if err := router.Run(); err != nil {
